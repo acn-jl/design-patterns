@@ -2,9 +2,16 @@
 
 import { Singleton } from "./creational-patterns/singleton";
 import { CarFactory } from "./creational-patterns/factory";
+import { Adapter, LegacySystem } from "./structural-patterns/adapter";
 
+enum pattern {
+    SINGLETON = "singleton",
+    FACTORY = "factory",
+    ADAPTER = "adapter",
 
-const run = (pattern: string) => {
+}
+
+const run = (pattern: pattern) => {
     switch(pattern) {
         case "singleton":
             const instance1 = Singleton.getInstance();
@@ -15,9 +22,14 @@ const run = (pattern: string) => {
         case "factory":
             const car1 = CarFactory.createCar("Sedan");
             car1.drive();  // Driving a sedan.
-
             const car2 = CarFactory.createCar("SUV");
             car2.drive();  // Driving an SUV.
+            break;
+
+        case "adapter":
+            const legacySystem = new LegacySystem();
+            const adapter = new Adapter(legacySystem);
+            console.log(adapter.newMethod());  // Adapter: Old system method
             break;
 
         default:
@@ -26,5 +38,6 @@ const run = (pattern: string) => {
     }
 };
 
-run("singleton");
-run("factory");
+run(pattern.SINGLETON);
+run(pattern.FACTORY);
+run(pattern.ADAPTER);
