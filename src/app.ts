@@ -5,6 +5,7 @@ import { CarFactory } from "./creational-patterns/factory";
 import { Adapter, LegacySystem } from "./structural-patterns/adapter";
 import { MilkDecorator, SimpleCoffee, SugarDecorator } from "./structural-patterns/decorator";
 import { ConcreteObserver, Subject } from "./behavioral-patterns/observer";
+import { Light, LightOffCommand, LightOnCommand, RemoteControl } from "./behavioral-patterns/command";
 
 enum pattern {
     SINGLETON = "singleton",
@@ -12,7 +13,7 @@ enum pattern {
     ADAPTER = "adapter",
     DECORATOR = "decorator",
     OBSERVER = "observer",
-
+    COMMAND = "command",
 }
 
 const run = (pattern: pattern) => {
@@ -60,6 +61,18 @@ const run = (pattern: pattern) => {
             // Observer 2 received message: Hello Observers!
             break;
 
+        case "command":
+            const light = new Light();
+            const lightOn = new LightOnCommand(light);
+            const lightOff = new LightOffCommand(light);
+
+            const remote = new RemoteControl();
+            remote.setCommand(lightOn);
+            remote.pressButton();  // The light is ON
+            remote.setCommand(lightOff);
+            remote.pressButton();  // The light is OFF
+            break;
+
         default:
             console.log(`Unknown pattern: ${pattern}`);
             break;
@@ -71,3 +84,4 @@ run(pattern.FACTORY);
 run(pattern.ADAPTER);
 run(pattern.DECORATOR);
 run(pattern.OBSERVER);
+run(pattern.COMMAND);
