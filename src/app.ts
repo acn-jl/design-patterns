@@ -3,11 +3,13 @@
 import { Singleton } from "./creational-patterns/singleton";
 import { CarFactory } from "./creational-patterns/factory";
 import { Adapter, LegacySystem } from "./structural-patterns/adapter";
+import { MilkDecorator, SimpleCoffee, SugarDecorator } from "./structural-patterns/decorator";
 
 enum pattern {
     SINGLETON = "singleton",
     FACTORY = "factory",
     ADAPTER = "adapter",
+    DECORATOR = "decorator",
 
 }
 
@@ -32,6 +34,17 @@ const run = (pattern: pattern) => {
             console.log(adapter.newMethod());  // Adapter: Old system method
             break;
 
+        case "decorator":
+            const simpleCoffee = new SimpleCoffee();
+            console.log(simpleCoffee.cost());  // 5
+
+            const milkCoffee = new MilkDecorator(simpleCoffee);
+            console.log(milkCoffee.cost());  // 7
+
+            const milkSugarCoffee = new SugarDecorator(milkCoffee);
+            console.log(milkSugarCoffee.cost());  // 8
+            break;
+
         default:
             console.log(`Unknown pattern: ${pattern}`);
             break;
@@ -41,3 +54,4 @@ const run = (pattern: pattern) => {
 run(pattern.SINGLETON);
 run(pattern.FACTORY);
 run(pattern.ADAPTER);
+run(pattern.DECORATOR);
