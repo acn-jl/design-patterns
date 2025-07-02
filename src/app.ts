@@ -4,12 +4,14 @@ import { Singleton } from "./creational-patterns/singleton";
 import { CarFactory } from "./creational-patterns/factory";
 import { Adapter, LegacySystem } from "./structural-patterns/adapter";
 import { MilkDecorator, SimpleCoffee, SugarDecorator } from "./structural-patterns/decorator";
+import { ConcreteObserver, Subject } from "./behavioral-patterns/observer";
 
 enum pattern {
     SINGLETON = "singleton",
     FACTORY = "factory",
     ADAPTER = "adapter",
     DECORATOR = "decorator",
+    OBSERVER = "observer",
 
 }
 
@@ -45,6 +47,19 @@ const run = (pattern: pattern) => {
             console.log(milkSugarCoffee.cost());  // 8
             break;
 
+        case "observer":
+            const subject = new Subject();
+            const observer1 = new ConcreteObserver("Observer 1");
+            const observer2 = new ConcreteObserver("Observer 2");
+
+            subject.addObserver(observer1);
+            subject.addObserver(observer2);
+
+            subject.notifyObservers("Hello Observers!");  
+            // Observer 1 received message: Hello Observers!
+            // Observer 2 received message: Hello Observers!
+            break;
+
         default:
             console.log(`Unknown pattern: ${pattern}`);
             break;
@@ -55,3 +70,4 @@ run(pattern.SINGLETON);
 run(pattern.FACTORY);
 run(pattern.ADAPTER);
 run(pattern.DECORATOR);
+run(pattern.OBSERVER);
